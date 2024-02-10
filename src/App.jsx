@@ -1,3 +1,4 @@
+import NavBar from "./components/NavBar"
 
 function App() {
 
@@ -6,7 +7,7 @@ function App() {
   // * ESTAMOS USANDO MATERIAL UI
   return (
     <>
-
+      <NavBar />
     </>
   )
 }

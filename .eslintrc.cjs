@@ -6,7 +6,23 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "eslint-config-prettier"
   ],
+  "import/resolver": {
+    "node": {
+      "paths": [
+        "src"
+      ],
+      "extensions": [
+        ".js",
+        ".jsx",
+        ".ts",
+        ".tsx"
+      ]
+    }
+  },
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
@@ -17,5 +33,6 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "indent": ["error", 2]
   },
 }
