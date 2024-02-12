@@ -27,7 +27,7 @@ export default function NavBar() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="false" disableGutters>
+      <Container maxWidth="false" disableGutters sx={{ zIndex: '10' }}>
         <Box
           sx={{
             display: 'flex',
