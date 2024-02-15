@@ -11,6 +11,8 @@ export default function RegisterPage() {
         name: event.target.email.value,
         password: event.target.password.value
       };
+
+      
       /* console.log(data.id, data.nome, data.senha); */ // * PARA PROPOSITOS DE DEBUG
   };
 
