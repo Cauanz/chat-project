@@ -1,19 +1,16 @@
-import { v4 as uuidv4 } from "uuid";
+import axios from 'axios';
 
 export default function RegisterPage() {
   // ! - FUNÇÃO DE ENVIO DE FORMULARIO DE EXEMPLO DO TEMPLATE, USE ESSE OU CRIE O SEU
-    
-  
 
   const handleSubmit = (event) => {
-      event.preventDefault();
-      const data = {
-        name: event.target.email.value,
-        password: event.target.password.value
-      };
-
-      
-      /* console.log(data.id, data.nome, data.senha); */ // * PARA PROPOSITOS DE DEBUG
+    event.preventDefault();
+    const data = {
+      name: event.target.email.value,
+      password: event.target.password.value,
+    };
+    axios.post('http://localhost:3000/user', data);
+    /* console.log(data.id, data.nome, data.senha); */ // * PARA PROPOSITOS DE DEBUG
   };
 
   return (
@@ -46,15 +43,12 @@ export default function RegisterPage() {
                 placeholder="Enter your password"
               />
             </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-            >
+            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
               Register
             </button>
           </form>
         </div>
       </div>
     </>
-  )
+  );
 }
