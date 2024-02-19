@@ -2,26 +2,28 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
-  // ! - FUNÇÃO DE ENVIO DE FORMULARIO DE EXEMPLO DO TEMPLATE, USE ESSE OU CRIE O SEU
-
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const data = {
-      email: e.target.value,
-      password: e.target.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
     };
 
-    axios.post('http://localhost:3000/user/login').then((res) => {
-      //! ROTA NÃO FUNCIONANDO, CONCERTAR
-      let resCode = res.status;
-      console.log(resCode);
+    axios
+      .post('http://localhost:3000/user/login', data)
+      .then((res) => {
+        //! ROTA NÃO FUNCIONANDO, CONCERTAR
+        let resCode = res.status;
+        console.log(resCode);
 
-      if (resCode === 200) {
-        navigate('/');
-      }
-    });
+        if (resCode === 200) {
+          navigate('/');
+        }
+      })
+      .catch((err) => console.log(err.response));
   };
 
   return (

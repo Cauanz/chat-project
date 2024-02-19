@@ -2,10 +2,12 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-router.post("/", async (req, res) => {
-  const { name, password } = req.body;
+//! CRIAR ROTAS PARA CRIAR CHATROOM, E MANDAR MENSAGENS, USAR SOCKET.IO
 
-  if (!name) {
+router.post("/", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email) {
     res.status(422).json({ error: "O nome é obrigatório" });
     return;
   }
@@ -19,7 +21,7 @@ router.post("/", async (req, res) => {
   const passwordHash = await bcrypt.hash(password, salt);
 
   const user = {
-    name,
+    email,
     password: passwordHash,
   };
 
@@ -66,7 +68,7 @@ router.post("/login", async (req, res) => {
   }
 
   //TODO - Criar token, e retornar, (melhorar autenticação/autorização em geral, no momento improvisado para fazer o resto)
-}); //! ESSA ROTA NÃO ESTÁ FUNCIONANDO
+});
 
 router.get("/", async (req, res) => {
   try {

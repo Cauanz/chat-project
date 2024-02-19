@@ -1,15 +1,19 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
-  // ! - FUNÇÃO DE ENVIO DE FORMULARIO DE EXEMPLO DO TEMPLATE, USE ESSE OU CRIE O SEU
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
-      name: event.target.email.value,
+      email: event.target.email.value,
       password: event.target.password.value,
     };
-    axios.post('http://localhost:3000/user', data);
+    axios
+      .post('http://localhost:3000/user', data)
+      .then(navigate('/login'))
+      .catch((err) => console.log(err.response));
     /* console.log(data.id, data.nome, data.senha); */ // * PARA PROPOSITOS DE DEBUG
   };
 
