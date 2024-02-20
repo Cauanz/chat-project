@@ -16,9 +16,11 @@ export default function ChatRoom() {
   const handleOk = () => {
     setModalText('The modal will be closed after two seconds');
     setConfirmLoading(true);
+    //O correto seria enviar os dados aqui enquanto o contador roda
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
+      console.log(modalText); //PARA DEBUG
     }, 2000);
   };
   const handleCancel = () => {
@@ -59,9 +61,6 @@ export default function ChatRoom() {
               style={{
                 maxWidth: 600,
               }}
-              initialValues={{
-                remember: true,
-              }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
@@ -79,8 +78,8 @@ export default function ChatRoom() {
                 <Input />
               </Form.Item>
 
-              <Form.Item label="Descrição" name="password">
-                <Input.Password />
+              <Form.Item label="Descrição (opcional)" name="password">
+                <Input />
               </Form.Item>
 
               <Form.Item
