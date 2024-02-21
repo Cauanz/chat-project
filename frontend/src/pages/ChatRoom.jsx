@@ -1,28 +1,39 @@
 import { Button, Modal, Checkbox, Form, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { useFormStore } from '../store/FormStore';
 import { useState } from 'react';
 
 export default function ChatRoom() {
   //TODO- REPRESENTA UMA SALA DE CHAT INDIVIDUAL, VOCE ESTA EM UMA SALA COM MENSAGENS ETC...
 
-  //TODO - Terminar essas merdas de CSS dos componentes e focar na parte legal, API, conexões, DB etc...
+  //! TEM ALGUM PROBLEMA NA IMPORTAÇÃO DA STORE DO ZUSTAND E OS HOOKS DO REACT, ELES ESTÃO PROVAVELMENTE CONFLITANDO CONCERTE
+
+  /*   const setChatName = useFormStore((state) => state.setNomeChat);
+  const setChatDesc = useFormStore((state) => state.setDescricaoChat); */
 
   const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Content of the modal');
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
   const showModal = () => {
     setOpen(true);
   };
-  const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
+  const handleOk = (e) => {
     setConfirmLoading(true);
     //O correto seria enviar os dados aqui enquanto o contador roda
+
+    setChatName(e.target.chatname.value);
+    setChatDesc(e.target.descricao.value);
+
+    console.log(e.target.chatname.value, e.target.descricao.value);
+
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
       console.log(modalText); //PARA DEBUG
     }, 2000);
   };
+
   const handleCancel = () => {
     console.log('Clicked cancel button');
     setOpen(false);
@@ -67,7 +78,7 @@ export default function ChatRoom() {
             >
               <Form.Item
                 label="Nome"
-                name="username"
+                name="chatname"
                 rules={[
                   {
                     required: true,
@@ -78,7 +89,7 @@ export default function ChatRoom() {
                 <Input />
               </Form.Item>
 
-              <Form.Item label="Descrição (opcional)" name="password">
+              <Form.Item label="Descrição (opcional)" name="descricao">
                 <Input />
               </Form.Item>
 
