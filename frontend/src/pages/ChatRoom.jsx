@@ -1,36 +1,46 @@
 import { Button, Modal, Checkbox, Form, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useFormStore } from '../store/FormStore';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function ChatRoom() {
   //TODO- REPRESENTA UMA SALA DE CHAT INDIVIDUAL, VOCE ESTA EM UMA SALA COM MENSAGENS ETC...
 
   //! TEM ALGUM PROBLEMA NA IMPORTAÇÃO DA STORE DO ZUSTAND E OS HOOKS DO REACT, ELES ESTÃO PROVAVELMENTE CONFLITANDO CONCERTE
+  //!NADA ESTA FUNCIONANDO, NAO SEI PEGAR OS VALORES DOS INPUTS, NAO SABEMOS PORQUE EU PRECISAMOS DOS STATES DOS INPUTS MAIS, NAO SEI EM QUE PARTE DO PROJETO ESTAMOS
 
   /*   const setChatName = useFormStore((state) => state.setNomeChat);
   const setChatDesc = useFormStore((state) => state.setDescricaoChat); */
 
   const [open, setOpen] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
   const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const [chatName, setChatName] = useState('');
+  const [chatDesc, setChatDesc] = useState('');
+  const chatNameRef = useRef(undefined);
+  const chatDescRef = useRef(undefined);
 
   const showModal = () => {
     setOpen(true);
   };
-  const handleOk = (e) => {
+  const handleSubmit = (e) => {
     setConfirmLoading(true);
     //O correto seria enviar os dados aqui enquanto o contador roda
 
-    setChatName(e.target.chatname.value);
-    setChatDesc(e.target.descricao.value);
+    setChatName(chatNameRef.current.value);
+    setChatDesc(chatDescRef.current.value);
 
-    console.log(e.target.chatname.value, e.target.descricao.value);
+    /*     setChatName(e.target.chatname.value);
+    setChatDesc(e.target.descricao.value); */
+
+    console.log(chatNameRef.current.value, chatDescRef.current.value);
 
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
-      console.log(modalText); //PARA DEBUG
+
+      setChatName('');
+      setChatDesc('');
     }, 2000);
   };
 
@@ -56,10 +66,10 @@ export default function ChatRoom() {
           <Modal
             title="Title"
             open={open}
-            onOk={handleOk}
             htmlType="submit"
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
+            footer={null}
           >
             <Form
               name="basic"
@@ -78,7 +88,6 @@ export default function ChatRoom() {
             >
               <Form.Item
                 label="Nome"
-                name="chatname"
                 rules={[
                   {
                     required: true,
@@ -86,11 +95,11 @@ export default function ChatRoom() {
                   },
                 ]}
               >
-                <Input />
+                <Input ref={chatNameRef} />
               </Form.Item>
 
-              <Form.Item label="Descrição (opcional)" name="descricao">
-                <Input />
+              <Form.Item label="Descrição (opcional)">
+                <Input ref={chatDescRef} />
               </Form.Item>
 
               <Form.Item
@@ -107,7 +116,11 @@ export default function ChatRoom() {
                   offset: 8,
                   span: 16,
                 }}
-              ></Form.Item>
+              >
+                <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                  Submit
+                </Button>
+              </Form.Item>
             </Form>
           </Modal>
         </div>

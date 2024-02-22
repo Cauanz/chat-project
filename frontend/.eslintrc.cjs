@@ -6,22 +6,15 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
-    "plugin:import/recommended",
-    "plugin:jsx-a11y/recommended",
-    "eslint-config-prettier"
+    'plugin:import/recommended',
+    'plugin:jsx-a11y/recommended',
+    'eslint-config-prettier',
   ],
-  "import/resolver": {
-    "node": {
-      "paths": [
-        "src"
-      ],
-      "extensions": [
-        ".js",
-        ".jsx",
-        ".ts",
-        ".tsx"
-      ]
-    }
+  'import/resolver': {
+    node: {
+      paths: ['src'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    },
   },
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -29,10 +22,7 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'react/jsx-no-target-blank': 'off',
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
-    "indent": ["error", 2]
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    indent: ['error', 2],
   },
-}
+};
