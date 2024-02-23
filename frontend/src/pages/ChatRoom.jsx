@@ -6,34 +6,21 @@ import { useRef, useState } from 'react';
 export default function ChatRoom() {
   //TODO- REPRESENTA UMA SALA DE CHAT INDIVIDUAL, VOCE ESTA EM UMA SALA COM MENSAGENS ETC...
 
-  //! TEM ALGUM PROBLEMA NA IMPORTAÇÃO DA STORE DO ZUSTAND E OS HOOKS DO REACT, ELES ESTÃO PROVAVELMENTE CONFLITANDO CONCERTE
-  //!NADA ESTA FUNCIONANDO, NAO SEI PEGAR OS VALORES DOS INPUTS, NAO SABEMOS PORQUE EU PRECISAMOS DOS STATES DOS INPUTS MAIS, NAO SEI EM QUE PARTE DO PROJETO ESTAMOS
-
-  /*   const setChatName = useFormStore((state) => state.setNomeChat);
-  const setChatDesc = useFormStore((state) => state.setDescricaoChat); */
-
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [chatName, setChatName] = useState('');
   const [chatDesc, setChatDesc] = useState('');
-  const chatNameRef = useRef(undefined);
-  const chatDescRef = useRef(undefined);
 
   const showModal = () => {
     setOpen(true);
   };
   const handleSubmit = (e) => {
+    e.preventDefault();
     setConfirmLoading(true);
     //O correto seria enviar os dados aqui enquanto o contador roda
 
-    setChatName(chatNameRef.current.value);
-    setChatDesc(chatDescRef.current.value);
-
-    /*     setChatName(e.target.chatname.value);
-    setChatDesc(e.target.descricao.value); */
-
-    console.log(chatNameRef.current.value, chatDescRef.current.value);
+    console.log(chatName, chatDesc);
 
     setTimeout(() => {
       setOpen(false);
@@ -44,17 +31,27 @@ export default function ChatRoom() {
     }, 2000);
   };
 
+  //! NÃO SEI COMO PEGAR OS VALORES DO FORM, TALVEZ CRIAR UM DOCUMENTO JÁ AQUI, E DEPOIS SÓ ADICIONAR O RESTO, ID'S, OUTROS OBJETOS ETC...
+
+  /*   const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setChatName(value);
+    } else if (name === 'description') {
+      setChatDesc(value);
+    }
+  }; */
+
+  /*   const handleChange = (e) => {
+    setChatName(e.target.name.value);
+    setChatDesc(e.target.description.value);
+
+    console.log(e.target.name.value, e.target.description.value);
+  }; */
+
   const handleCancel = () => {
     console.log('Clicked cancel button');
     setOpen(false);
-  };
-
-  /* Form DATA */
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
   return (
     <>
@@ -64,64 +61,48 @@ export default function ChatRoom() {
             <PlusCircleOutlined style={{ fontSize: '40px' }} />
           </Button>
           <Modal
-            title="Title"
+            title="Criar novo Chat"
             open={open}
             htmlType="submit"
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
             footer={null}
           >
-            <Form
-              name="basic"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              style={{
-                maxWidth: 600,
-              }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                label="Nome"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input the chat's name",
-                  },
-                ]}
-              >
-                <Input ref={chatNameRef} />
-              </Form.Item>
-
-              <Form.Item label="Descrição (opcional)">
-                <Input ref={chatDescRef} />
-              </Form.Item>
-
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              ></Form.Item>
-
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button type="primary" htmlType="submit" onClick={handleSubmit}>
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
+            <form>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                  Nome
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="name"
+                  type="text"
+                  placeholder="Digite o nome"
+                  required
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                  Descrição
+                </label>
+                <textarea
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="description"
+                  placeholder="Digite a descrição"
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+              <div className="flex items-center justify-between">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  Criar
+                </button>
+              </div>
+            </form>
           </Modal>
         </div>
       </div>
