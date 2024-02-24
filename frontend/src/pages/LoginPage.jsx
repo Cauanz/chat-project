@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,20 +17,28 @@ export default function LoginPage() {
     axios
       .post('http://localhost:3000/user/login', data)
       .then((res) => {
-        //! ROTA NÃO FUNCIONANDO, CONCERTAR
-        let resCode = res.status;
+        //TODO- ROTA FUNCIONANDO, MAS MELHORAR ISSO DE REDIRECIONAR
+        let resCode = res;
         console.log(resCode);
 
         if (resCode === 200) {
           navigate('/');
         }
+
+        if (resCode === 422) {
+          setError('Invalid email or password');
+        }
       })
-      .catch((err) => console.log(err.response));
+      .catch((err) => {
+        console.log(err.response);
+        setError('An error occurred');
+      });
   };
 
   return (
     <>
       <div className="flex justify-center items-center h-screen">
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
           <h2 className="text-center text-2xl font-bold mb-4">Login</h2>
           <div className="mb-4">

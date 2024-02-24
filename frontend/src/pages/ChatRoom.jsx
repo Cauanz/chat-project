@@ -2,6 +2,7 @@ import { Button, Modal, Checkbox, Form, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useFormStore } from '../store/FormStore';
 import { useRef, useState } from 'react';
+import axios from 'axios';
 
 export default function ChatRoom() {
   //TODO- REPRESENTA UMA SALA DE CHAT INDIVIDUAL, VOCE ESTA EM UMA SALA COM MENSAGENS ETC...
@@ -9,45 +10,48 @@ export default function ChatRoom() {
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
-  const [chatName, setChatName] = useState('');
-  const [chatDesc, setChatDesc] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const [chat, setChat] = useState({
+    name: '',
+    description: '',
+    creator: {
+      id: '',
+      //SEM NOME POR ENQUANTO
+    },
+    participants: [],
+    messages: [],
+  });
 
   const showModal = () => {
     setOpen(true);
   };
+
+  //! PAREI ENVIANDO O OBJETO PARA O BACK PARA MODIFICAR LÁ E COLOCAR OS DADOS QUE FALTAM ANTES DE IR PARA O DB, ESTOU TENTNADO CRIAR O TOKEN DO USUARIO PARA PEGAR O ID E COLOCAR NO OBJETO
   const handleSubmit = (e) => {
     e.preventDefault();
     setConfirmLoading(true);
     //O correto seria enviar os dados aqui enquanto o contador roda
+    setChat((prevState) => ({ ...prevState, name: name, description: description }));
 
-    console.log(chatName, chatDesc);
-
+    try {
+      const response = axios('http://localhost:3000/user/create', chat);
+    } catch (err) {
+      console.log(err);
+    }
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
-
-      setChatName('');
-      setChatDesc('');
+      console.log(chat);
     }, 2000);
   };
 
   //! NÃO SEI COMO PEGAR OS VALORES DO FORM, TALVEZ CRIAR UM DOCUMENTO JÁ AQUI, E DEPOIS SÓ ADICIONAR O RESTO, ID'S, OUTROS OBJETOS ETC...
 
-  /*   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'name') {
-      setChatName(value);
-    } else if (name === 'description') {
-      setChatDesc(value);
-    }
-  }; */
-
-  /*   const handleChange = (e) => {
-    setChatName(e.target.name.value);
-    setChatDesc(e.target.description.value);
-
-    console.log(e.target.name.value, e.target.description.value);
-  }; */
+  const handleChange = (e) => {
+    console.log(e.target.elements.name.value, e.target.description.value);
+  };
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
@@ -79,7 +83,10 @@ export default function ChatRoom() {
                   type="text"
                   placeholder="Digite o nome"
                   required
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  name="name"
                 />
               </div>
               <div className="mb-4">
@@ -90,7 +97,10 @@ export default function ChatRoom() {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="description"
                   placeholder="Digite a descrição"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                  name="description"
                 ></textarea>
               </div>
               <div className="flex items-center justify-between">
