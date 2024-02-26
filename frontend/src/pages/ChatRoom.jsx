@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import axios from 'axios';
 
 export default function ChatRoom() {
-  //TODO- REPRESENTA UMA SALA DE CHAT INDIVIDUAL, VOCE ESTA EM UMA SALA COM MENSAGENS ETC...
+  //* - REPRESENTA UMA SALA DE CHAT INDIVIDUAL, VOCE ESTA EM UMA SALA COM MENSAGENS ETC...
 
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -46,8 +46,6 @@ export default function ChatRoom() {
       console.log(chat);
     }, 2000);
   };
-
-  //! NÃO SEI COMO PEGAR OS VALORES DO FORM, TALVEZ CRIAR UM DOCUMENTO JÁ AQUI, E DEPOIS SÓ ADICIONAR O RESTO, ID'S, OUTROS OBJETOS ETC...
 
   const handleChange = (e) => {
     console.log(e.target.elements.name.value, e.target.description.value);

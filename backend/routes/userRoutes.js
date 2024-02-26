@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const SECRET =
   "1bea141a20b24e26320fe3ae561ab0d95e05465700212507e3548e925d1ecb4d"; //* MUDAR ISSO DE LUGAR
@@ -38,7 +39,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-//TODO- ROTA NÃO RETORNANDO TOKEN, PROVAVELMENTE PRECISO FAZER MAIS DO QUE ISSO
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -71,14 +71,9 @@ router.post("/login", async (req, res) => {
       expiresIn: "1 hour",
     });
     res.json({ token });
-
-    /* res.status(200).json({ message: "Login bem sucedido!" }); */
   } catch (err) {
-    console.error(err);
-    res.json({ error: err });
+    res.json({ error: "YOYO" + err });
   }
-
-  //TODO - Criar token, e retornar, (melhorar autenticação/autorização em geral, no momento improvisado para fazer o resto)
 });
 
 router.get("/", async (req, res) => {

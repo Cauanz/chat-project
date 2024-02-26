@@ -17,15 +17,15 @@ export default function LoginPage() {
     axios
       .post('http://localhost:3000/user/login', data)
       .then((res) => {
-        //TODO- ROTA FUNCIONANDO, MAS MELHORAR ISSO DE REDIRECIONAR
-        let resCode = res;
-        console.log(resCode);
+        const resCode = res.data.status;
+        const token = res.data.token;
+        console.log(res.data.token);
 
-        if (resCode === 200) {
+        if (token) {
+          localStorage.setItem('token', token);
+
           navigate('/');
-        }
-
-        if (resCode === 422) {
+        } else if (!token || resCode === 422) {
           setError('Invalid email or password');
         }
       })
