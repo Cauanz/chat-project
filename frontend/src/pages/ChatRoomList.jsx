@@ -93,11 +93,14 @@ export default function ChatRoomList() {
                 type="primary"
                 className="w-14 h-14 bg-sky-700 rounded-3xl flex justify-center items-center mr-1"
                 onClick={showModal}
+                id="createButton"
               >
                 <PlusCircleOutlined style={{ fontSize: '40px' }} />
               </Button>
             </ConfigProvider>
-            <h2 className="font-bold uppercase">Criar chat</h2>
+            <label htmlFor="createButton" className="font-bold uppercase cursor-pointer">
+              Criar chat
+            </label>
           </div>
           <Modal
             title="Criar novo Chat"
@@ -149,7 +152,9 @@ export default function ChatRoomList() {
               </div>
             </form>
           </Modal>
-          //* Lógica para mostrar chats
+
+          {/* Lógica para mostrar chats */}
+
           {/* Replace this with your chat room cards */}
           {chatRooms.map((chatRoom, index) => (
             <div key={index} className="bg-white shadow-md p-4 rounded-md">

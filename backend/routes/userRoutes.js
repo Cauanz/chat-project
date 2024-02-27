@@ -3,8 +3,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const SECRET =
-  "1bea141a20b24e26320fe3ae561ab0d95e05465700212507e3548e925d1ecb4d"; //* MUDAR ISSO DE LUGAR
+//* MUDAR ISSO DE LUGAR
 
 //TODO CRIAR ROTAS PARA CRIAR CHATROOM, E MANDAR MENSAGENS, USAR SOCKET.IO
 
@@ -145,13 +144,5 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: err });
   }
 });
-
-//* ROTAS CRIAÇÃO/GERENCIAMENTO DE CHATS/MENSAGENS ETC...
-
-/* router.post("/create", verifyToken, async (req, res) => {
-  const chatData = req.body;
-
-  res.json({ chatData });
-}); */
 
 module.exports = router;
