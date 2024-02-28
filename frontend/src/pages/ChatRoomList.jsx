@@ -60,11 +60,14 @@ export default function ChatRoomList() {
     setChat((prevState) => ({ ...prevState, name: name, description: description }));
 
     //TODO CRIAR ROTA PARA CRIAR CHAT
-    /*     try {
-      const response = axios('http://localhost:3000/user/create', chat);
+    try {
+      const token = localStorage.getItem('token');
+      axios('http://localhost:3000/chat/create', chat, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
     } catch (err) {
       console.log(err);
-    } */
+    }
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);

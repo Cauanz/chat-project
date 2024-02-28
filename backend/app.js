@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const port = 3000;
 const userRoutes = require("./routes/userRoutes.js");
-const chatRoutes = rquire("./routes/chatRoutes.js");
+const chatRoutes = require("./routes/chatRoutes.js");
 require("dotenv").config();
 
 app.use(cors());

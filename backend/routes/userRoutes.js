@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 //TODO CRIAR ROTAS PARA CRIAR CHATROOM, E MANDAR MENSAGENS, USAR SOCKET.IO
 
 //* ROTAS LOGIN/AUTENTICAÇÃO/USER RELATED
+
+//*REGISTER
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
@@ -38,8 +40,12 @@ router.post("/", async (req, res) => {
   }
 });
 
+//*LOGIN
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  // mesmo que digitar:
+  // const usuario = req.body.usuario;
+  // const senha = req.body.senha;
 
   if (!email) {
     res.status(422).json({ error: "O email é obrigatório" });
@@ -66,12 +72,12 @@ router.post("/login", async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ userId: user._id }, SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.REACT_APP_SECRET, {
       expiresIn: "1 hour",
     });
     res.json({ token });
   } catch (err) {
-    res.json({ error: "YOYO" + err });
+    res.json({ error: err });
   }
 });
 

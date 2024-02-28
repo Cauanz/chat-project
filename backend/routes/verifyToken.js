@@ -12,7 +12,9 @@ function verifyToken(req, res, next) {
 
   jwt.verify(token, process.env.REACT_APP_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(500).send({ message: "Failed to authenticate token!" });
+      return res
+        .status(500)
+        .send({ message: "Failed to authenticate token!" + err });
     }
 
     req.userId = decoded.id;
