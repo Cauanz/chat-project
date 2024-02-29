@@ -7,7 +7,9 @@ router.post("/create", verifyToken, async (req, res) => {
   const chatData = req.body;
   const userId = req.userId;
 
-  res.json({ chatData, userId });
+  chatData.creator = { id: userId };
+
+  res.json({ chatData });
 });
 
 module.exports = router;
