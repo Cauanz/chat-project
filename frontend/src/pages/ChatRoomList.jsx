@@ -8,7 +8,7 @@ export default function ChatRoomList() {
   //*- LISTA DE CHATS QUE VAI FICAR NA ESQUERDA COM TODOS OS CHATS CRIADOS OU DISPONIVEIS PARA ENTRAR OU SOMENTE OS QUE VOCE JA ESTA
   //*- E O BOTÃO PARA CRIAR NOVO CHAT, CHATROOM VAI TER MUITA COISA ENTÃO TRANSFERI PARA CÁ
 
-  const chatRooms = [
+  /*   const chatRooms = [
     'Chat Room 1',
     'Chat Room 2',
     'Chat Room 3',
@@ -29,8 +29,9 @@ export default function ChatRoomList() {
     'Chat Room 8',
     'Chat Room 9',
     'Chat Room 10',
-  ]; //! EXEMPLO PARA DEBUG
+  ]; //! EXEMPLO PARA DEBUG */
 
+  //Controle do MODAL
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -42,7 +43,7 @@ export default function ChatRoomList() {
     description: '',
     creator: {
       id: '',
-      //SEM NOME POR ENQUANTO
+      //SEM NOME POR ENQUANTO //TODO - Adicionar nome no registro
     },
     participants: [],
     messages: [],
@@ -57,17 +58,26 @@ export default function ChatRoomList() {
     setConfirmLoading(true);
     //OS DADOS SÃO ENVIADOS DEPOIS NO SETTIMEOUT O LOADING É DESATIVADO
 
-    setChat((prevState) => ({ ...prevState, name: name, description: description }));
+    /*     const updatedChat = {
+      ...chat,
+      name: name,
+      description: description,
+    }; */
 
-    //TODO CRIAR ROTA PARA CRIAR CHAT
+    //TODO resolver problema na criação e atualização do state chat para ser enviado na rota de criação
+
+    setChat();
+
     try {
       const token = localStorage.getItem('token');
-      axios('http://localhost:3000/chat/create', chat, {
+      // Envia os dados atualizados para o servidor
+      axios.post('http://localhost:3000/chat/create', updatedChat, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {
       console.log(err);
     }
+
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
@@ -159,11 +169,11 @@ export default function ChatRoomList() {
           {/* Lógica para mostrar chats */}
 
           {/* Replace this with your chat room cards */}
-          {chatRooms.map((chatRoom, index) => (
+          {/*           {chatRooms.map((chatRoom, index) => (
             <div key={index} className="bg-white shadow-md p-4 rounded-md">
               {chatRoom}
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </>
