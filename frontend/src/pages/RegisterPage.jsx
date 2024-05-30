@@ -11,10 +11,14 @@ export default function RegisterPage() {
       password: event.target.password.value,
     };
     axios
-      .post('http://localhost:3000/user', data)
-      .then(navigate('/login'))
+      .post('http://localhost:3000/register', data)
+      .then(res => res.json())
+      .then(
+        data => {
+          console.log(data)
+        }
+      )
       .catch((err) => console.log(err.response));
-    /* console.log(data.id, data.nome, data.senha); */ // * PARA PROPOSITOS DE DEBUG
   };
 
   return (

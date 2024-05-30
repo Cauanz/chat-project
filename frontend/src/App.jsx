@@ -1,13 +1,49 @@
-import NavBar from './components/NavBar';
-import ChatRoom from './pages/ChatRoom';
-import ChatRoomList from './pages/ChatRoomList';
+// import NavBar from './components/NavBar';
+// import ChatRoom from './pages/ChatRoom';
+// import ChatRoomList from './pages/ChatRoomList';
+import { useState, useEffect } from "react";
+import io from 'socket.io-client';
+import { useFormStore } from "./store/FormStore";
+
+//! FAZER PRIMEIRO FUNCIONAL COM HTML E CSS, PARA CONSEGUIR FAZER O BACK, DEPOIS FAZER ESTÉTICO COM AS UI LIBS
+
+// * ESTAMOS USANDO MATERIAL UI
+
+
+//TODO = REFINAR/ESCLARECER/SIMPLIFICAR A LÓGICA, A IDÉIA É: A ABA DE CHATS VAI RECEBER OS CHATS E RENDERIZAR ELES, A PARTE DO CHAT SELECIONADO SÓ VAI RECEBER AS MENSAGENS E RENDERIZAR ELAS, E CONECTAR AO SERVIÇO PARA ENVIAR OUTRA MENSAGEM (AKA: ADICIONAR OUTRA MENSAGEM A PILHA E A PILHA SER ATUALIZADA NO OUTRO USUARIO) TODO O RESTO É LÓGICA OU DETALHE, SELECIONAR O CHAT É SÓ UMA LÓGICA SIMPLES NO JS OU NO CSS
+
+const socket = io('http://localhost:3000')
 
 function App() {
-  //TODO - AINDA NAO SEI OQUE VAI TER AQUI, TALVEZ O CHATROOMLIST E O NAVBAR? JA QUE O RESTO FICA UM DENTRO DO OUTRO E O LOGIN E REGISTER SÃO INDIVIDUAIS PARA AUTENTICAÇÃO E LIBERAÇÃO DA ENTRADA NO APP
 
-  //! FAZER PRIMEIRO FUNCIONAL COM HTML E CSS, PARA CONSEGUIR FAZER O BACK, DEPOIS FAZER ESTÉTICO COM AS UI LIBS
+  const [message, setMessage] = useState('');
+  const { room, messages, setRoom, addMessage, clearMessages } = useFormStore();
 
-  // * ESTAMOS USANDO MATERIAL UI
+  useEffect(() => {
+    socket.on('chatMessage', (msg) => {
+      addMessage(msg);
+    })
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [addMessage]);
+
+  const joinRoom = () => {
+    if(room !== ''){
+      clearMessages();
+      socket.emit('joinRoom', room);
+    }
+  };
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if(message !== ''){
+      socket.emit('chatMessage', { room, message });
+      setMessage('');
+    }
+  }
+
   return (
     <>
       <div className="h-[64px] bg-gray-200">

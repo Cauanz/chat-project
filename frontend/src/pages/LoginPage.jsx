@@ -3,19 +3,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
+
   const navigate = useNavigate();
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const data = {
-      email: e.target.email.value,
+      name: e.target.name.value,
       password: e.target.password.value,
     };
 
     axios
-      .post('http://localhost:3000/user/login', data)
+      .post('http://localhost:3000/login', data)
       .then((res) => {
         const resCode = res.data.status;
         const token = res.data.token;
@@ -43,14 +43,14 @@ export default function LoginPage() {
           <h2 className="text-center text-2xl font-bold mb-4">Login</h2>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email
+              Name
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Email"
-              name="email"
+              id="name"
+              type="name"
+              placeholder="Name"
+              name="name"
             />
           </div>
           <div className="mb-6">
@@ -72,6 +72,8 @@ export default function LoginPage() {
             >
               Sign In
             </button>
+
+            //TODO - adicionar botão para ir para página de registro
           </div>
         </form>
       </div>
