@@ -1,24 +1,39 @@
 const mongoose = require("mongoose");
 
-const Chat = mongoose.model("Chat", {
-  name: String,
+const chatSchema = new mongoose.Schema({
+  name: { 
+    type: String, 
+    required: true 
+  },
   description: String,
   creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Isso assume que você tem um modelo de usuário e quer referenciar um usuário específico como o criador do chat
+    id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User', 
+      required: true 
+    },
+    name: String
   },
-  participants: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Isso permite que você referencie múltiplos usuários como participantes do chat
+  participants: [{
+    id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User' 
     },
-  ],
-  messages: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message", // Isso permite que você referencie múltiplos mensagens associadas a este chat
+    name: String
+  }],
+  messages: [{
+    sender: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User' 
     },
-  ],
+    message: String,
+    timestamp: { 
+      type: Date, 
+      default: Date.now 
+    }
+  }]
 });
+
+const Chat = mongoose.model('Chat', chatSchema);
 
 module.exports = Chat;

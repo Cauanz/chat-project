@@ -1,94 +1,14 @@
 import { Button, Modal, Checkbox, Form, Input, ConfigProvider } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useFormStore } from '../store/FormStore';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-export default function ChatRoomList() {
+export default function ChatRoomList({ onSubmit, setChatName, setChatDescription }) {
   //*- LISTA DE CHATS QUE VAI FICAR NA ESQUERDA COM TODOS OS CHATS CRIADOS OU DISPONIVEIS PARA ENTRAR OU SOMENTE OS QUE VOCE JA ESTA
   //*- E O BOTÃO PARA CRIAR NOVO CHAT, CHATROOM VAI TER MUITA COISA ENTÃO TRANSFERI PARA CÁ
 
-  /*   const chatRooms = [
-    'Chat Room 1',
-    'Chat Room 2',
-    'Chat Room 3',
-    'Chat Room 4',
-    'Chat Room 5',
-    'Chat Room 6',
-    'Chat Room 7',
-    'Chat Room 8',
-    'Chat Room 9',
-    'Chat Room 10',
-    'Chat Room 1',
-    'Chat Room 2',
-    'Chat Room 3',
-    'Chat Room 4',
-    'Chat Room 5',
-    'Chat Room 6',
-    'Chat Room 7',
-    'Chat Room 8',
-    'Chat Room 9',
-    'Chat Room 10',
-  ]; //! EXEMPLO PARA DEBUG */
 
-  //Controle do MODAL
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-
-  const [chat, setChat] = useState({
-    name: '',
-    description: '',
-    creator: {
-      id: '',
-      //SEM NOME POR ENQUANTO //TODO - Adicionar nome no registro
-    },
-    participants: [],
-    messages: [],
-  });
-
-  const showModal = () => {
-    setOpen(true);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setConfirmLoading(true);
-    //OS DADOS SÃO ENVIADOS DEPOIS NO SETTIMEOUT O LOADING É DESATIVADO
-
-    /*     const updatedChat = {
-      ...chat,
-      name: name,
-      description: description,
-    }; */
-
-    //TODO resolver problema na criação e atualização do state chat para ser enviado na rota de criação
-
-    setChat();
-
-    try {
-      const token = localStorage.getItem('token');
-      // Envia os dados atualizados para o servidor
-      axios.post('http://localhost:3000/chat/create', updatedChat, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-      console.log(chat);
-    }, 2000);
-  };
-
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
-    setOpen(false);
-  };
 
   return (
     <>
@@ -135,7 +55,7 @@ export default function ChatRoomList() {
                   placeholder="Digite o nome"
                   required
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setChatName(e.target.value);
                   }}
                   name="name"
                 />
@@ -149,7 +69,7 @@ export default function ChatRoomList() {
                   id="description"
                   placeholder="Digite a descrição"
                   onChange={(e) => {
-                    setDescription(e.target.value);
+                    setChatDescription(e.target.value);
                   }}
                   name="description"
                 ></textarea>
@@ -158,7 +78,7 @@ export default function ChatRoomList() {
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
-                  onClick={handleSubmit}
+                  onClick={onSubmit}
                 >
                   Criar
                 </button>

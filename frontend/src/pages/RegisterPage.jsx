@@ -6,19 +6,18 @@ export default function RegisterPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const data = {
+      name: event.target.name.value,
       email: event.target.email.value,
       password: event.target.password.value,
     };
+
+    
     axios
       .post('http://localhost:3000/register', data)
-      .then(res => res.json())
-      .then(
-        data => {
-          console.log(data)
-        }
-      )
-      .catch((err) => console.log(err.response));
+      .then( () => { navigate('/login') })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -27,6 +26,18 @@ export default function RegisterPage() {
         <div className="bg-white p-8 rounded shadow">
           <h2 className="text-2xl font-bold mb-4">Register</h2>
           <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                Name
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="name"
+                type="name"
+                placeholder="Name"
+                name="name"
+              />
+            </div>
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
                 Email
