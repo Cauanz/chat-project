@@ -1,14 +1,26 @@
 import { Button, Modal, Checkbox, Form, Input, ConfigProvider } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useFormStore } from '../store/FormStore';
+// import { useFormStore } from '../store/FormStore';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-export default function ChatRoomList({ onSubmit, setChatName, setChatDescription }) {
+export default function ChatRoomList({ onSubmit, setChatName, setChatDescription, name, description }) {
   //*- LISTA DE CHATS QUE VAI FICAR NA ESQUERDA COM TODOS OS CHATS CRIADOS OU DISPONIVEIS PARA ENTRAR OU SOMENTE OS QUE VOCE JA ESTA
   //*- E O BOTÃO PARA CRIAR NOVO CHAT, CHATROOM VAI TER MUITA COISA ENTÃO TRANSFERI PARA CÁ
 
+  const [open, setIsModalOpen] = useState(false);
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -39,11 +51,12 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
             title="Criar novo Chat"
             open={open}
             htmlType="submit"
-            confirmLoading={confirmLoading}
+            // confirmLoading={confirmLoading}
             onCancel={handleCancel}
             footer={null}
           >
-            <form>
+
+            <form onSubmit={onSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                   Nome
@@ -54,6 +67,7 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
                   type="text"
                   placeholder="Digite o nome"
                   required
+                  value={name}
                   onChange={(e) => {
                     setChatName(e.target.value);
                   }}
@@ -68,6 +82,7 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="description"
                   placeholder="Digite a descrição"
+                  value={description}
                   onChange={(e) => {
                     setChatDescription(e.target.value);
                   }}
@@ -78,7 +93,6 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
-                  onClick={onSubmit}
                 >
                   Criar
                 </button>

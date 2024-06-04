@@ -2,8 +2,11 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
 //* ROTAS LOGIN/AUTENTICAÇÃO/USER RELATED
+
+const JWT = '2994A49B6EB1D919FCB922D861443' //! REMOVER DEPOIS DE RESOLVER O PROBLEMA
 
 async function authenticateUser(email, password) {
   try {
@@ -14,7 +17,9 @@ async function authenticateUser(email, password) {
     if(!validPassword) throw new Error("Senha incorreta!");
     
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET)
+    // TODO - RESOLVER PROBLEMA DO ENV NÃO SER IMPORTADO NO VITE
+
+    const token = jwt.sign({ userId: user._id }, JWT)
     return token
   } catch (error) {
     throw new Error(error);

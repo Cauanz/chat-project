@@ -41,8 +41,8 @@ mongoose.connect('mongodb+srv://cauanzelazo:dIsJALWHdKh31XyQ@cluster0.efug1zl.mo
   .then(() => console.log('mongodb connected'))
   .catch((err) => console.log("Ocorreu um erro:" + err));
 
-app.use(userRoutes);
-app.use(chatRoutes);
+app.use('/user', userRoutes);
+app.use('/chat', chatRoutes);
 
 app.get('/', (req, res) => {
   res.send('Server is running')
