@@ -2,14 +2,14 @@ const router = require("express").Router();
 const verifyToken = require("./verifyToken.js");
 const Chat = require("../models/Chat.js");
 
-//* ROTAS CRIAÇÃO/GERENCIAMENTO DE CHATS/MENSAGENS ETC...
+//* ROTAS CRIAÇÃO/GERENCIAMENTO DE CHATS/MENSAGENS ETC... 
 
 router.post("/create", verifyToken, async (req, res) => {
   const chatData = req.body;
-  const userId = req.userId;
+  const userId = req.user.userId;
 
   chatData.creator = { id: userId };
-
+  // console.log(userId)
   try {
     const newChat = new Chat(chatData);
     await newChat.save();
@@ -23,5 +23,18 @@ router.post("/create", verifyToken, async (req, res) => {
       .json({ message: "Erro ao criar o chat.", error: error.toString() });
   }
 });
+
+
+router.get('/rooms', verifyToken, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const rooms = await Chat.find();
+    res.json(rooms);
+  } catch (error) {
+    console.error('Error fetching rooms', error);
+    res.status(500).json({ message: 'Error fetching rooms' });
+  }
+})
 
 module.exports = router;

@@ -15,7 +15,7 @@ export default function RegisterPage() {
 
     
     axios
-      .post('http://localhost:3000/register', data)
+      .post('http://localhost:3000/user/register', data)
       .then( () => { navigate('/login') })
       .catch((err) => console.log(err));
   };

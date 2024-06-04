@@ -15,7 +15,7 @@ export default function LoginPage() {
     };
 
     axios
-      .post('http://localhost:3000/login', data)
+      .post('http://localhost:3000/user/login', data)
       .then((res) => {
         const resCode = res.data.status;
         const token = res.data.token;
