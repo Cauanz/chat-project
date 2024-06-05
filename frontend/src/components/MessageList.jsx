@@ -1,10 +1,11 @@
+import MessageForm from "./MessageForm";
 
 export default function MessageList() {
 
-   //TODO - LISTA DE MENSAGENS DENTRO DO CHAT, PODE SER UM COMPONENTE QUE VAI RENDERIZAR TODAS AS MENSAGENS COMO UMA LISTA, OU CADA MENSAGEM VAI SER UM COMPONENTE, DECIDA
+   //* ACHO QUE ESSE COMPONENTE É INUTIL :(
+
   return (
     <div>
-
     </div>
   )
 }

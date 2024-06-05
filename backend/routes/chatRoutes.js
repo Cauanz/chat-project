@@ -37,4 +37,16 @@ router.get('/rooms', verifyToken, async (req, res) => {
   }
 })
 
+router.get('/:roomId/messages', verifyToken, async (req, res) => {
+  const roomId = req.params.roomId;
+
+  try {
+    const messages = await Chat.findById(roomId);
+    res.json(messages);
+  } catch (error) {
+    console.error(`Error fetching messages for room: ${roomId}`, error);
+    res.status(500).json({ message: 'Error fetching messages' });
+  }
+})
+
 module.exports = router;

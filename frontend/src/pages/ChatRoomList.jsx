@@ -4,7 +4,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-export default function ChatRoomList({ onSubmit, setChatName, setChatDescription, name, description, rooms }) {
+export default function ChatRoomList({ onSubmit, setChatName, setChatDescription, name, description, rooms, onSelectRoom }) {
   //*- LISTA DE CHATS QUE VAI FICAR NA ESQUERDA COM TODOS OS CHATS CRIADOS OU DISPONIVEIS PARA ENTRAR OU SOMENTE OS QUE VOCE JA ESTA
   //*- E O BOTÃO PARA CRIAR NOVO CHAT, CHATROOM VAI TER MUITA COISA ENTÃO TRANSFERI PARA CÁ
 
@@ -13,9 +13,6 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
 
   const [open, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(rooms)
-  }, [])
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -32,7 +29,7 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
   return (
     <>
       <div className="flex h-full w-full">
-        <div className="grid grid-cols-1 gap-4 overflow-y-auto w-full">
+        <div className="gap-4 overflow-y-auto w-full">
           <div className="sticky top-0 z-50 bg-white shadow-md p-4 rounded-md flex items-center">
             <ConfigProvider
               theme={{
@@ -55,8 +52,9 @@ export default function ChatRoomList({ onSubmit, setChatName, setChatDescription
             </label>
           </div>
           {rooms.map((room) => (
-            <div key={room.id} className="bg-white shadow-md p-4 rounded-md">
+            <div key={room._id} className="bg-white shadow-md p-4 rounded-md cursor-pointer" onClick={() => onSelectRoom(room._id)}>
               <p>{room.name}</p>
+              <p>Descrição: {room.description}</p>
             </div>
           ))}
         </div>
